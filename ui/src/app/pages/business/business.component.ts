@@ -4,19 +4,21 @@ import { generateFakeBusinessArray } from '../../../mock/mockBusiness';
 import { Column } from '../../../types/tables';
 import { CommonModule } from '@angular/common';
 import { Business } from '../../../types/business';
+import { Router, RouterModule } from '@angular/router';
+import { BusinessService } from '../../services/business-service.service';
 
 @Component({
   selector: 'app-business',
   standalone: true,
-  imports: [ReadonlyTableComponent, CommonModule],
+  imports: [ReadonlyTableComponent, CommonModule, RouterModule],
   templateUrl: './business.component.html',
   styleUrl: './business.component.scss'
 })
 export class BusinessComponent {
   columns: Column[];
-  business = generateFakeBusinessArray() as Business[];
+  business: Business[] = [];
 
-  constructor() {
+  constructor(private _router: Router, private _businessService: BusinessService) {
     this.columns = [
       {
         header: 'Name',
@@ -46,7 +48,11 @@ export class BusinessComponent {
         field: 'address',
         subfield: 'zipcode'
       },
-    ]
+    ];
+
+    this._businessService.getBusinesses().subscribe((arr) => {
+      this.business = arr;
+    })
   }
 
   getDataField(business: Business, col: Column): string {
@@ -59,5 +65,10 @@ export class BusinessComponent {
 
   logEvent(event: any) {
     console.log(event as Business);
+  }
+
+  handleDblClick(event: any) {
+    const business = event as Business;
+    this._router.navigateByUrl(`/business/${business.id}`);
   }
 }

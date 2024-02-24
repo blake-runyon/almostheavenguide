@@ -6,7 +6,7 @@
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-200">
-      <tr *ngFor="let d of data; let i = index" (click)="onRowSelect(d, i)" [class.bg-red-400]="i === selectedNdx">
+      <tr *ngFor="let d of data; let i = index" (click)="onRowSelect(d, i)" (dblclick)="handleDoubleClick(d)" [class.bg-red-400]="i === selectedNdx">
         <td *ngFor="let col of columns" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
           {{ getDataField(d, col) }}
         </td>

@@ -15,6 +15,7 @@ export class ReadonlyTableComponent {
   @Input() columns!: Column[];
 
   @Output() rowSelect = new EventEmitter<any>();
+  @Output() rowDblClick = new EventEmitter<any>();
 
   selectedNdx?: number;
 
@@ -26,6 +27,10 @@ export class ReadonlyTableComponent {
       this.selectedNdx = ndx;
       this.rowSelect.emit(rowData);
     }
+  }
+
+  handleDoubleClick(rowData: any) {
+    this.rowDblClick.emit(rowData);
   }
 
   getDataField(data: any, col: Column): string {
